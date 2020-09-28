@@ -6,6 +6,7 @@ import './App.css';
 function App() {
   
   const [countries, setCountries] = useState([])
+  const [country, setCountry] = useState("worldwide")
 
   useEffect(() => {
     const getCountriesData = async () => {
@@ -23,15 +24,23 @@ function App() {
     getCountriesData()
   }, []) // useEffect chama uma callback que é executada assim que o componente carrega, o array vazio como segundo parâmetro faz com o que a callback só seja executada uma vez
 
+  const onCountryChange = (event) => {
+    const countryCode = event.target.value
+
+    console.log(countryCode)
+
+    setCountry(countryCode)
+  }
   
   return (
     <div className="App">
       <div className="app__header">
         <h1>Lets build COVID 19 tracker</h1>
         <FormControl className="app__dropdown">
-          <Select variant="outlined" value="abc">
+          <Select variant="outlined" value={country} onChange={onCountryChange}>
+            <MenuItem value="worldwide">Worldwide</MenuItem>
             {countries.map((country) => 
-              <MenuItem value={country.value}>{country.name}</MenuItem>
+              <MenuItem key={country.value} value={country.value}>{country.name}</MenuItem>
             )}
           </Select>
         </FormControl>
